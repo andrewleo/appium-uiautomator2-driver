@@ -1,6 +1,6 @@
 import ADB from 'appium-adb';
-import AndroidUiautomator2Driver from '../../..';
-
+import { startServer, DEFAULT_PORT } from '../../..';
+import wd from 'wd';
 
 async function initDriver (caps) {
   if (process.env.TRAVIS) {
@@ -12,9 +12,14 @@ async function initDriver (caps) {
     } catch (ign) {}
   }
 
-  let driver = new AndroidUiautomator2Driver();
-  await driver.createSession(caps);
+  // If it's not TestObject, run the server locally
+  if (!process.env.TESTOBJECT_E2E_TESTS) {
+    await startServer(4884, 'localhost');
+  }
 
+  // Create a WD driver
+  let driver = await wd.promiseChainRemote('localhost', DEFAULT_PORT);
+  await driver.init(caps);
   return driver;
 }
 
