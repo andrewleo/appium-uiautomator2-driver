@@ -25,6 +25,8 @@ env:
     - ANDROID_EMU_NAME=test
     - ANDROID_EMU_TARGET=android-21
     - ANDROID_EMU_ABI=armeabi-v7a
+    # TODO: Change this later to be included in matrix
+    - TESTOBJECT_E2E_TESTS=true
   matrix:
     - START_EMU=0 RECURSIVE=--recursive TEST=unit COVERALLS=1
     - TEST=functional
@@ -40,13 +42,13 @@ before_script:
   - npm install appium-test-support # get the travis emu scripts
 
   # android stuff
-  - android list targets
-  - $(npm bin)/android-emu-travis-pre
+  - if $TESTOBJECT_E2E_TESTS; then android list targets; fi
+  - if $TESTOBJECT_E2E_TESTS; then $(npm bin)/android-emu-travis-pre; fi
 
   - SERVER_INSTALL_ATTEMPTS=50 npm install
 
   # make sure emulator started
-  - $(npm bin)/android-emu-travis-post
+  - if $TESTOBJECT_E2E_TESTS; then $(npm bin)/android-emu-travis-post; fi
 script:
   - npm run lint && npm run mocha -- -t $MOCHA_TIMEOUT -R spec $RECURSIVE build/test/$TEST -ig @skip-ci
 after_success:
