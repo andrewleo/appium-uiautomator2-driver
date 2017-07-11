@@ -25,14 +25,15 @@ env:
     - ANDROID_EMU_NAME=test
     - ANDROID_EMU_TARGET=android-21
     - ANDROID_EMU_ABI=armeabi-v7a
-    # TODO: Change this later to be included in matrix
-    - TESTOBJECT_E2E_TESTS=true
   matrix:
     - START_EMU=0 RECURSIVE=--recursive TEST=unit COVERALLS=1
     - TEST=functional
     - TEST=functional/commands
     - TEST=functional/commands/find
     - TEST=functional/commands/keyboard
+    - TEST=functional/commands TESTOBJECT_E2E_TESTS=true
+    - TEST=functional/commands/find TESTOBJECT_E2E_TESTS=true
+    - TEST=functional/commands/keyboard TESTOBJECT_E2E_TESTS=true
 before_script:
   # node stuff
   - curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
@@ -50,6 +51,10 @@ before_script:
   # make sure emulator started
   - if $TESTOBJECT_E2E_TESTS; then $(npm bin)/android-emu-travis-post; fi
 script:
+<<<<<<< HEAD
   - npm run lint && npm run mocha -- -t $MOCHA_TIMEOUT -R spec $RECURSIVE build/test/$TEST -ig @skip-ci
+=======
+  - gulp eslint && mocha -t $MOCHA_TIMEOUT -R spec $RECURSIVE build/test/functional/helpers/mocha-scripts.js build/test/$TEST -ig @skip-ci
+>>>>>>> Add mocha script that overrides WD to use TestObject
 after_success:
   - if [ -n "$COVERALLS" ]; then npm run coverage; fi
