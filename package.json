@@ -51,12 +51,11 @@
     "build": "gulp transpile",
     "test": "gulp once",
     "watch": "gulp watch",
-    "e2e-test": "gulp e2e-test",
     "mocha": "mocha",
     "coverage": "gulp coveralls",
     "lint": "gulp eslint",
     "precommit-msg": "echo 'Pre-commit checks...' && exit 0",
-    "e2e-test": "gulp transpile && mocha -t 640000 -R spec build/test/functional/helpers/mocha-scripts.js build/test/functional/**/*-specs.js build/test/functional/*-specs.js",
+    "e2e-test": "gulp transpile && mocha -t 640000 -R spec --require build/test/functional/helpers/mocha-scripts.js build/test/functional/**/*-specs.js build/test/functional/*-specs.js",
     "e2e-testobject": "cross-env TESTOBJECT_E2E_TESTS=true npm run e2e-test"
   },
   "pre-commit": [

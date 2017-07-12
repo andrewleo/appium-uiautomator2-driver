@@ -1,6 +1,6 @@
 /**
- * This script needs to be run before other e2e mocha scrips
- * 
+ * This script needs to be run before other e2e mocha scripts
+ *
  * This script starts the server or if it's TestObject, runs the tests on TO serrver
  */
 
